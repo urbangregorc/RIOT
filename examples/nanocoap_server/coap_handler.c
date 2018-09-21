@@ -24,6 +24,14 @@ static ssize_t _riot_board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len, vo
             COAP_FORMAT_TEXT, (uint8_t*)RIOT_BOARD, strlen(RIOT_BOARD));
 }
 
+static ssize_t _testFinterop_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *context)
+{
+    (void)context;
+    char output[] = "F-INTEROP TEST";
+    return coap_reply_simple(pkt, COAP_CODE_205, buf, len,
+            COAP_FORMAT_TEXT, (uint8_t*)output, strlen(output));
+}
+
 static ssize_t _riot_value_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *context)
 {
     (void) context;
@@ -110,6 +118,7 @@ const coap_resource_t coap_resources[] = {
     { "/sha256", COAP_POST, _sha256_handler, NULL },
     { "/riot/board", COAP_GET, _riot_board_handler, NULL },
     { "/riot/value", COAP_GET | COAP_PUT | COAP_POST, _riot_value_handler, NULL },
+	{ "/test", COAP_GET, _testFinterop_handler, NULL },
 };
 
 const unsigned coap_resources_numof = sizeof(coap_resources) / sizeof(coap_resources[0]);
